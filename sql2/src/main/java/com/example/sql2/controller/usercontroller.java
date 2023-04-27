@@ -2,18 +2,17 @@ package com.example.sql2.controller;
 import com.example.sql2.entity.user;
 import com.example.sql2.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class usercontroller {
     @Autowired
     private UserMapper usermapper;
 
-    @GetMapping("/user")
+    @GetMapping("/users")
     public List query(){
 
        List <user>list=usermapper.find();
@@ -21,9 +20,15 @@ public class usercontroller {
         return list;
     }
 
-    @PostMapping("/user")
-    public  String save(user user ){
-       int i=usermapper.insert(user);
+
+    @PostMapping("/login")
+    public  int login(@RequestBody user user ){
+        int i= usermapper.login(user);
+        return i;
+}
+    @PostMapping("/signin")
+    public  String signing(user user ){
+       int i=usermapper.signin(user);
         if (i == 0) {
             return "创建失败";
         }
